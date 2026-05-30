@@ -1,0 +1,34 @@
+{
+  "name": "WellTrack — Student Wellbeing Platform",
+  "short_name": "WellTrack",
+  "description": "Student wellbeing tracking, check-ins, alerts and pastoral support for schools",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#F7FAFC",
+  "theme_color": "#2C7A7B",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Daily Check-In",
+      "short_name": "Check-In",
+      "description": "Complete your daily wellbeing check-in",
+      "url": "/?module=DailyCheckIn"
+    },
+    {
+      "name": "View Alerts",
+      "short_name": "Alerts",
+      "description": "View student wellbeing alerts",
+      "url": "/?module=Alerts"
+    },
+    {
+      "name": "Support Requests",
+      "short_name": "Support",
+      "description": "Open support requests",
+      "url": "/?module=SupportRequests"
+    }
+  ]
+}

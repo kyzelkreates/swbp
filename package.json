@@ -1,0 +1,21 @@
+{
+  "name": "welltrack-swp",
+  "version": "1.0.0",
+  "description": "WellTrack — Student Wellbeing Platform (converted from BCO Core)",
+  "type": "module",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "serve": "npx serve .",
+    "dev": "npx live-server --port=8080"
+  },
+  "keywords": ["wellbeing","education","students","pastoral","safeguarding","schools"],
+  "author": "Kyzel Kreates",
+  "license": "MIT",
+  "bco": {
+    "baseVersion": "1.0.0",
+    "runsComplete": 10,
+    "conversionTarget": "Student Wellbeing Platform",
+    "strictMode": true
+  }
+}

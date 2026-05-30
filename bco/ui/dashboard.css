@@ -1,0 +1,236 @@
+/* BCO Dashboard — Run 4
+   CSS custom properties driven by brand-engine.js
+   Layout: three-panel flex grid, responsive
+   ─────────────────────────────────────────────── */
+
+/* ── TOKENS ──────────────────────────────────── */
+:root {
+  --color-primary:    #2563eb;
+  --color-secondary:  #1e1b4b;
+  --color-accent:     #7c3aed;
+  --color-bg:         #0f0e1a;
+  --color-surface:    #1a1830;
+  --color-border:     #2d2b55;
+  --color-text:       #e2e8f0;
+  --color-muted:      #94a3b8;
+  --font-base:        "Inter", system-ui, sans-serif;
+  --radius:           8px;
+  --panel-width-side: 220px;
+  --panel-width-right: 280px;
+}
+
+/* ── RESET ───────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family:      var(--font-base);
+  background-color: var(--color-bg);
+  color:            var(--color-text);
+  min-height:       100vh;
+}
+
+/* ── DASHBOARD SHELL ─────────────────────────── */
+.bco-dashboard {
+  display:    flex;
+  height:     100vh;
+  overflow:   hidden;
+}
+
+/* ── PANELS ──────────────────────────────────── */
+.bco-panel {
+  display:    flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height:     100%;
+}
+
+.bco-panel--left {
+  width:            var(--panel-width-side);
+  min-width:        var(--panel-width-side);
+  background:       var(--color-secondary);
+  border-right:     1px solid var(--color-border);
+}
+
+.bco-panel--centre {
+  flex:             1;
+  background:       var(--color-bg);
+  padding:          1.5rem;
+  overflow-y:       auto;
+}
+
+.bco-panel--right {
+  width:            var(--panel-width-right);
+  min-width:        var(--panel-width-right);
+  background:       var(--color-surface);
+  border-left:      1px solid var(--color-border);
+  padding:          1rem;
+}
+
+/* ── LEFT NAV ────────────────────────────────── */
+.bco-nav {
+  display:        flex;
+  flex-direction: column;
+  height:         100%;
+  padding:        1rem 0.75rem;
+  gap:            1rem;
+}
+
+.bco-nav__brand {
+  display:        flex;
+  align-items:    center;
+  gap:            0.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom:  1px solid var(--color-border);
+}
+
+.bco-nav__logo        { height: 28px; width: auto; }
+.bco-nav__appname     { font-size: 1rem; font-weight: 700; color: var(--color-text); }
+.bco-nav__role-badge  {
+  font-size:    0.7rem;
+  color:        var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.bco-nav__modules { list-style: none; display: flex; flex-direction: column; gap: 0.25rem; flex: 1; }
+
+.bco-nav__item {
+  padding:       0.5rem 0.75rem;
+  border-radius: var(--radius);
+  cursor:        pointer;
+  font-size:     0.875rem;
+  color:         var(--color-muted);
+  text-transform: capitalize;
+  transition:    background 0.15s, color 0.15s;
+}
+.bco-nav__item:hover  { background: rgba(255,255,255,0.06); color: var(--color-text); }
+.bco-nav__item.active { background: var(--color-primary); color: #fff; }
+
+.bco-nav__footer      { font-size: 0.7rem; color: var(--color-muted); padding-top: 0.75rem; border-top: 1px solid var(--color-border); }
+.bco-system-status    { color: #4ade80; }
+
+/* ── CENTRE PANEL ────────────────────────────── */
+.bco-module-header   { margin-bottom: 1.25rem; }
+.bco-module-title    { font-size: 1.25rem; font-weight: 600; text-transform: capitalize; }
+
+.bco-widget-grid {
+  display:               grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap:                   1rem;
+}
+
+/* ── WIDGETS ─────────────────────────────────── */
+.bco-widget {
+  background:   var(--color-surface);
+  border:       1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow:     hidden;
+}
+
+.bco-widget__header {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     center;
+  padding:         0.6rem 0.875rem;
+  border-bottom:   1px solid var(--color-border);
+  background:      rgba(255,255,255,0.03);
+}
+
+.bco-widget__title { font-size: 0.8rem; font-weight: 600; text-transform: capitalize; color: var(--color-muted); letter-spacing: 0.04em; }
+.bco-widget__count { font-size: 0.75rem; color: var(--color-muted); }
+.bco-widget__body  { padding: 0.875rem; min-height: 120px; }
+
+.bco-widget--chart  .bco-chart-canvas   { width: 100%; height: 160px; display: block; }
+.bco-list           { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+.bco-list__row      { font-size: 0.8rem; color: var(--color-muted); padding: 0.25rem 0; border-bottom: 1px solid var(--color-border); }
+.bco-list__empty,
+.bco-timeline__empty,
+.bco-card__empty,
+.bco-alert--empty,
+.bco-empty          { font-size: 0.8rem; color: var(--color-muted); font-style: italic; }
+
+.bco-timeline       { display: flex; flex-direction: column; gap: 0.5rem; }
+.bco-timeline__item { display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.8rem; }
+.bco-timeline__dot  { width: 8px; height: 8px; border-radius: 50%; background: var(--color-primary); flex-shrink: 0; margin-top: 4px; }
+.bco-timeline__text { flex: 1; color: var(--color-text); }
+.bco-timeline__ts   { color: var(--color-muted); font-size: 0.7rem; white-space: nowrap; }
+
+.bco-card__row { display: flex; justify-content: space-between; padding: 0.25rem 0; font-size: 0.8rem; border-bottom: 1px solid var(--color-border); }
+.bco-card__key { color: var(--color-muted); }
+.bco-card__val { color: var(--color-text); font-weight: 500; }
+
+/* ── RIGHT PANEL ─────────────────────────────── */
+.bco-right-panel__section  { margin-bottom: 1.5rem; }
+.bco-right-panel__heading  { font-size: 0.75rem; font-weight: 600; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+
+.bco-badge { background: var(--color-primary); color: #fff; font-size: 0.65rem; padding: 1px 5px; border-radius: 10px; }
+
+.bco-alert-list  { display: flex; flex-direction: column; gap: 0.5rem; }
+.bco-alert {
+  padding:       0.5rem 0.6rem;
+  border-radius: 6px;
+  font-size:     0.8rem;
+  display:       flex;
+  flex-direction: column;
+  gap:           0.2rem;
+}
+.bco-alert--info     { background: rgba(37,99,235,0.12); border-left: 3px solid #2563eb; }
+.bco-alert--warning  { background: rgba(217,119,6,0.12);  border-left: 3px solid #d97706; }
+.bco-alert--error    { background: rgba(220,38,38,0.12);  border-left: 3px solid #dc2626; }
+.bco-alert--critical { background: rgba(124,58,237,0.12); border-left: 3px solid #7c3aed; }
+.bco-alert__ts { color: var(--color-muted); font-size: 0.7rem; }
+
+/* ── LAYOUT VARIANTS (brand-engine data-layout) ─ */
+body[data-layout="compact"]  { --panel-width-side: 180px; --panel-width-right: 240px; }
+body[data-layout="wide"]     { --panel-width-side: 260px; --panel-width-right: 320px; }
+
+/* ── RESPONSIVE ──────────────────────────────── */
+@media (max-width: 768px) {
+  .bco-panel--left, .bco-panel--right { display: none; }
+  .bco-panel--centre { padding: 1rem; }
+}
+
+/* ── ANIMATIONS ──────────────────────────────── */
+@keyframes bco-slide-in {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── AI PANEL STYLES (Run 5) ──────────────── */
+.bco-ai-section           { margin-bottom: 1.25rem; }
+.bco-ai-section__heading  { font-size: 0.7rem; font-weight: 600; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+.bco-ai-loading, .bco-ai-error { font-size: 0.8rem; color: var(--color-muted); font-style: italic; padding: 0.5rem 0; }
+.bco-ai-error             { color: #f97316; }
+
+/* AI card */
+.bco-ai-card              { background: rgba(255,255,255,0.03); border: 1px solid var(--color-border); border-radius: 6px; padding: 0.6rem 0.75rem; margin-bottom: 0.5rem; }
+.bco-ai-card--critical    { border-left: 3px solid #ef4444; }
+.bco-ai-card--high        { border-left: 3px solid #f97316; }
+.bco-ai-card--medium      { border-left: 3px solid #facc15; }
+.bco-ai-card--low         { border-left: 3px solid #a3e635; }
+.bco-ai-card--none        { border-left: 3px solid #4ade80; }
+.bco-ai-card__header      { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem; }
+.bco-ai-card__module      { font-size: 0.8rem; font-weight: 600; text-transform: capitalize; }
+.bco-ai-card__risk        { font-size: 0.7rem; font-weight: 600; }
+.bco-ai-card__insight     { font-size: 0.72rem; color: var(--color-muted); margin-bottom: 0.2rem; }
+
+/* Recommendations */
+.bco-ai-rec               { display: flex; align-items: flex-start; gap: 0.35rem; font-size: 0.72rem; padding: 0.2rem 0; border-top: 1px solid var(--color-border); }
+.bco-ai-rec__icon         { flex-shrink: 0; }
+.bco-ai-rec__msg          { flex: 1; color: var(--color-text); }
+.bco-ai-rec__conf         { color: var(--color-muted); font-size: 0.65rem; white-space: nowrap; }
+
+/* Forecast */
+.bco-ai-forecast          { font-size: 0.7rem; color: var(--color-muted); margin-top: 0.35rem; padding-top: 0.35rem; border-top: 1px solid var(--color-border); }
+.bco-ai-forecast__conf    { opacity: 0.7; }
+
+/* Correlations */
+.bco-ai-corr              { display: flex; justify-content: space-between; font-size: 0.75rem; padding: 0.3rem 0; border-bottom: 1px solid var(--color-border); }
+.bco-ai-corr--strong      { color: #4ade80; }
+.bco-ai-corr--moderate    { color: #facc15; }
+
+/* Optimisation plan */
+.bco-ai-plan              { background: rgba(255,255,255,0.02); border: 1px solid var(--color-border); border-radius: 6px; padding: 0.5rem 0.65rem; margin-bottom: 0.4rem; }
+.bco-ai-plan__module      { font-size: 0.78rem; font-weight: 600; text-transform: capitalize; margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.4rem; }
+.bco-ai-plan__badge       { font-size: 0.62rem; padding: 1px 5px; border-radius: 8px; background: var(--color-primary); color: #fff; }
+.bco-ai-plan__action      { font-size: 0.72rem; color: var(--color-muted); padding: 0.1rem 0; }

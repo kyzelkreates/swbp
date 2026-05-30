@@ -1,0 +1,37 @@
+{
+  "name": "BCO",
+  "short_name": "BCO",
+  "description": "Brandable Control OS — modular operating system framework",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0f0e1a",
+  "theme_color": "#2563eb",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "New Event",
+      "short_name": "Event",
+      "description": "Create a new system event",
+      "url": "/?action=create_event",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "View Alerts",
+      "short_name": "Alerts",
+      "description": "Open the alerts feed",
+      "url": "/?action=view_alerts",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Approve Action",
+      "short_name": "Approve",
+      "description": "Approve a pending action",
+      "url": "/?action=approve_action",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

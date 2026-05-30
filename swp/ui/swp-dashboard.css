@@ -1,0 +1,572 @@
+/* SWP — Student Wellbeing Platform
+   Extends BCO Dashboard CSS (Run 4)
+   Light theme, educational, accessible
+   ──────────────────────────────────── */
+
+:root {
+  --color-primary:   #2C7A7B;
+  --color-secondary: #276749;
+  --color-accent:    #F6AD55;
+  --color-danger:    #E53E3E;
+  --color-warning:   #D69E2E;
+  --color-success:   #38A169;
+  --color-bg:        #F7FAFC;
+  --color-surface:   #FFFFFF;
+  --color-border:    #E2E8F0;
+  --color-text:      #1A202C;
+  --color-muted:     #718096;
+  --font-base:       'Inter', 'Segoe UI', system-ui, sans-serif;
+  --radius:          12px;
+  --radius-sm:       8px;
+  --shadow:          0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:       0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.04);
+  --panel-left:      240px;
+  --panel-right:     300px;
+  --header-h:        60px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body { font-family: var(--font-base); background: var(--color-bg); color: var(--color-text); min-height: 100vh; line-height: 1.5; }
+
+/* ── LAYOUT ───────────────────────────────── */
+.swp-app { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+.swp-header {
+  height: var(--header-h);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+
+.swp-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--color-primary);
+}
+
+.swp-header__logo { font-size: 1.5rem; }
+
+.swp-header__meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+.swp-header__role {
+  background: var(--color-primary);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.swp-body { display: flex; flex: 1; overflow: hidden; }
+
+/* ── LEFT SIDEBAR ────────────────────────── */
+.swp-sidebar {
+  width: var(--panel-left);
+  min-width: var(--panel-left);
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 1rem 0;
+}
+
+.swp-nav__section-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-muted);
+  padding: 0.75rem 1.25rem 0.25rem;
+}
+
+.swp-nav__item {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.625rem 1.25rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  border-left: 3px solid transparent;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.swp-nav__item:hover { background: var(--color-bg); color: var(--color-primary); }
+.swp-nav__item.active {
+  background: rgba(44, 122, 123, 0.08);
+  border-left-color: var(--color-primary);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.swp-nav__icon { width: 18px; text-align: center; font-size: 1rem; }
+.swp-nav__badge {
+  margin-left: auto;
+  background: var(--color-danger);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.1rem 0.4rem;
+  border-radius: 99px;
+  min-width: 18px;
+  text-align: center;
+}
+.swp-nav__badge.amber { background: var(--color-warning); }
+.swp-nav__badge.green { background: var(--color-success); }
+
+/* ── CENTRE PANEL ────────────────────────── */
+.swp-main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  background: var(--color-bg);
+}
+
+.swp-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.swp-page-title { font-size: 1.375rem; font-weight: 700; color: var(--color-text); }
+.swp-page-subtitle { font-size: 0.875rem; color: var(--color-muted); margin-top: 0.2rem; }
+
+/* ── RIGHT PANEL ─────────────────────────── */
+.swp-right {
+  width: var(--panel-right);
+  min-width: var(--panel-right);
+  border-left: 1px solid var(--color-border);
+  background: var(--color-surface);
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.swp-right__section { margin-bottom: 1.5rem; }
+.swp-right__heading {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ── STAT CARDS ──────────────────────────── */
+.swp-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.swp-stat-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+}
+
+.swp-stat-card__label {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.swp-stat-card__value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-text);
+  line-height: 1;
+}
+
+.swp-stat-card__sub {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin-top: 0.375rem;
+}
+
+.swp-stat-card.danger  .swp-stat-card__value { color: var(--color-danger); }
+.swp-stat-card.warning .swp-stat-card__value { color: var(--color-warning); }
+.swp-stat-card.success .swp-stat-card__value { color: var(--color-success); }
+.swp-stat-card.primary .swp-stat-card__value { color: var(--color-primary); }
+
+/* ── ALERT CARDS ─────────────────────────── */
+.swp-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.875rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.swp-alert:hover { opacity: 0.85; }
+
+.swp-alert.red   { background: #FFF5F5; border: 1px solid #FC8181; }
+.swp-alert.amber { background: #FFFAF0; border: 1px solid #F6AD55; }
+.swp-alert.green { background: #F0FFF4; border: 1px solid #68D391; }
+
+.swp-alert__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+.swp-alert.red   .swp-alert__dot { background: var(--color-danger); }
+.swp-alert.amber .swp-alert__dot { background: var(--color-warning); }
+.swp-alert.green .swp-alert__dot { background: var(--color-success); }
+
+.swp-alert__name   { font-weight: 600; }
+.swp-alert__reason { color: var(--color-muted); font-size: 0.8rem; }
+
+/* ── TABLES ───────────────────────────────── */
+.swp-table-wrap { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+
+table.swp-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+table.swp-table th {
+  background: var(--color-bg);
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+table.swp-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--color-border); }
+table.swp-table tr:last-child td { border-bottom: none; }
+table.swp-table tr:hover td { background: var(--color-bg); cursor: pointer; }
+
+/* ── BADGES ──────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 99px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.badge.red    { background: #FFF5F5; color: #C53030; border: 1px solid #FC8181; }
+.badge.amber  { background: #FFFAF0; color: #B7791F; border: 1px solid #F6AD55; }
+.badge.green  { background: #F0FFF4; color: #276749; border: 1px solid #68D391; }
+.badge.blue   { background: #EBF8FF; color: #2B6CB0; border: 1px solid #90CDF4; }
+.badge.purple { background: #F3E8FF; color: #6B46C1; border: 1px solid #D6BCFA; }
+.badge.gray   { background: #EDF2F7; color: #4A5568; border: 1px solid #CBD5E0; }
+
+/* ── CARDS ───────────────────────────────── */
+.swp-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 1rem;
+}
+
+.swp-card__title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ── GRID ────────────────────────────────── */
+.swp-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+.swp-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+
+/* ── CHART PLACEHOLDER ───────────────────── */
+.swp-chart {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  min-height: 160px;
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.swp-bar {
+  flex: 1;
+  border-radius: 4px 4px 0 0;
+  min-width: 12px;
+  transition: opacity 0.2s;
+}
+.swp-bar:hover { opacity: 0.75; }
+
+.swp-bar.primary { background: var(--color-primary); }
+.swp-bar.success { background: var(--color-success); }
+.swp-bar.warning { background: var(--color-warning); }
+.swp-bar.danger  { background: var(--color-danger); }
+
+/* ── FORMS ───────────────────────────────── */
+.swp-form-group { margin-bottom: 1rem; }
+.swp-label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.375rem; color: var(--color-text); }
+.swp-input, .swp-select, .swp-textarea {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-family: var(--font-base);
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: border-color 0.15s;
+}
+.swp-input:focus, .swp-select:focus, .swp-textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(44, 122, 123, 0.1);
+}
+.swp-textarea { min-height: 80px; resize: vertical; }
+
+/* ── SLIDER ──────────────────────────────── */
+.swp-slider-wrap { margin-bottom: 1.25rem; }
+.swp-slider-label { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.375rem; }
+.swp-slider-label span { font-weight: 600; }
+input[type="range"].swp-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(to right, var(--color-primary) var(--pct, 50%), var(--color-border) var(--pct, 50%));
+  cursor: pointer;
+}
+input[type="range"].swp-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  border: 2px solid white;
+  box-shadow: var(--shadow);
+}
+.swp-slider-emojis { display: flex; justify-content: space-between; font-size: 1.25rem; margin-top: 0.25rem; }
+
+/* ── BUTTONS ─────────────────────────────── */
+.swp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.575rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+  font-family: var(--font-base);
+  text-decoration: none;
+}
+.swp-btn.primary { background: var(--color-primary); color: white; }
+.swp-btn.primary:hover { background: #2a6e6f; }
+.swp-btn.secondary { background: var(--color-bg); color: var(--color-text); border: 1px solid var(--color-border); }
+.swp-btn.secondary:hover { border-color: var(--color-primary); color: var(--color-primary); }
+.swp-btn.danger { background: var(--color-danger); color: white; }
+.swp-btn.sm { padding: 0.35rem 0.75rem; font-size: 0.8rem; }
+
+/* ── PROGRESS ────────────────────────────── */
+.swp-progress-bar {
+  height: 8px;
+  background: var(--color-border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.swp-progress-bar__fill {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--color-primary);
+  transition: width 0.5s ease;
+}
+
+/* ── TABS ────────────────────────────────── */
+.swp-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--color-border); margin-bottom: 1.25rem; }
+.swp-tab {
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.15s;
+}
+.swp-tab.active { color: var(--color-primary); border-bottom-color: var(--color-primary); font-weight: 600; }
+.swp-tab:hover { color: var(--color-text); }
+
+/* ── AI INSIGHT CARD ─────────────────────── */
+.swp-ai-card {
+  background: linear-gradient(135deg, rgba(44,122,123,0.08), rgba(39,103,73,0.05));
+  border: 1px solid rgba(44,122,123,0.25);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+.swp-ai-card__header {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+.swp-ai-card__text { font-size: 0.875rem; color: var(--color-text); line-height: 1.6; }
+.swp-ai-card__disclaimer { font-size: 0.72rem; color: var(--color-muted); margin-top: 0.75rem; font-style: italic; }
+
+/* ── MOOD EMOJIS ─────────────────────────── */
+.mood-1::after { content: "😔"; }
+.mood-2::after { content: "😕"; }
+.mood-3::after { content: "😐"; }
+.mood-4::after { content: "🙂"; }
+.mood-5::after { content: "😊"; }
+
+/* ── EMPTY STATES ────────────────────────── */
+.swp-empty {
+  text-align: center;
+  padding: 3rem;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+.swp-empty__icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+
+/* ── TOOLTIPS ────────────────────────────── */
+.swp-tooltip { position: relative; }
+.swp-tooltip:hover::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-text);
+  color: white;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* ── RESPONSIVE ──────────────────────────── */
+@media (max-width: 1100px) { .swp-right { display: none; } }
+@media (max-width: 768px)  {
+  .swp-sidebar { display: none; }
+  .swp-grid-2, .swp-grid-3 { grid-template-columns: 1fr; }
+  .swp-stats-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── SCROLLBAR ───────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-muted); }
+
+/* ── FILTER BAR ──────────────────────────── */
+.swp-filter-bar {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+  align-items: center;
+}
+.swp-search {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.5rem 0.875rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-family: var(--font-base);
+  background: var(--color-surface);
+  transition: border-color 0.15s;
+}
+.swp-search:focus { outline: none; border-color: var(--color-primary); }
+
+/* ── ROLE SELECTOR ───────────────────────── */
+.swp-role-selector {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 1rem;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+.swp-role-btn {
+  padding: 0.4rem 1rem;
+  border-radius: 99px;
+  border: 1px solid var(--color-border);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--font-base);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+.swp-role-btn.active { background: var(--color-primary); color: white; border-color: var(--color-primary); }
+
+/* ── STUDENT WELLBEING CARD ──────────────── */
+.swp-student-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+}
+.swp-student-card:hover { box-shadow: var(--shadow-md); }
+.swp-student-card__avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.swp-student-card__avatar.red   { background: #FFF5F5; color: #C53030; }
+.swp-student-card__avatar.amber { background: #FFFAF0; color: #B7791F; }
+.swp-student-card__avatar.green { background: #F0FFF4; color: #276749; }
