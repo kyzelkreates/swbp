@@ -3,9 +3,9 @@
 // NO clinical claims. NO diagnosis. Trend + pattern analysis only.
 // Rule: read-only. Nothing dispatched. Output is suggestions only.
 
-import { detectPatterns } from "../../bco-base/bco/ai/patterns.js";
-import { calculateRiskScore } from "../../bco-base/bco/ai/risk.js";
-import { generateRecommendations } from "../../bco-base/bco/ai/recommendations.js";
+import { detectPatterns } from "../../bco/ai/patterns.js";
+import { calculateRiskScore } from "../../bco/ai/risk.js";
+import { generateRecommendations } from "../../bco/ai/recommendations.js";
 
 // ─────────────────────────────────────────────
 // WELLBEING RISK THRESHOLDS (education-tuned)

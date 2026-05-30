@@ -2,7 +2,7 @@
 // Permission system extending BCO Auth (Run 6)
 // Five education roles mapped to BCO role hierarchy
 
-import { ROLES as BCO_ROLES } from "../../bco-base/bco/auth/permissions.js";
+import { ROLES as BCO_ROLES } from "../../bco/auth/permissions.js";
 
 // ─────────────────────────────────────────────
 // EDUCATION ROLE DEFINITIONS
