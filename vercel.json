@@ -6,6 +6,10 @@
       "dest": "/$1"
     },
     {
+      "src": "/student(.html)?",
+      "dest": "/student.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }

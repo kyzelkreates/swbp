@@ -773,7 +773,7 @@ function renderResources(el, d) {
     </div>
     <div class="swp-grid-3">
       ${categories.map(c => `
-        <div class="swp-card" style="cursor:pointer;" onclick="">
+        <div class="swp-card resource-card" style="cursor:pointer;">
           <div style="font-size:2rem;margin-bottom:0.5rem;">${c.icon}</div>
           <div style="font-weight:700;margin-bottom:0.75rem;">${c.title}</div>
           ${c.items.map(i => `<div style="font-size:0.8rem;color:var(--color-muted);padding:0.2rem 0;border-bottom:1px solid var(--color-border);">${i}</div>`).join("")}
@@ -822,7 +822,7 @@ function renderOverview(el, d) {
     <div class="swp-page-header">
       <div><div class="swp-page-title">📊 School Wellbeing Overview</div>
       <div class="swp-page-subtitle">Live metrics · ${new Date().toLocaleDateString("en-GB", {weekday:"long",day:"numeric",month:"long"})}</div></div>
-      <button class="swp-btn secondary sm" onclick="">📥 Export Report</button>
+      <button class="swp-btn secondary sm" id="overview-export-btn">📥 Export Report</button>
     </div>
     <div class="swp-stats-grid">
       <div class="swp-stat-card primary"><div class="swp-stat-card__label">Total Students</div><div class="swp-stat-card__value">${overview.totalStudents.toLocaleString()}</div><div class="swp-stat-card__sub">${d.classes.length} classes · ${d.yearGroups.length} year groups</div></div>
@@ -872,7 +872,98 @@ function renderOverview(el, d) {
       </table></div>
     </div>
   `;
+
+  // ── FIX: Wire export button → navigate to Reports module
+  el.querySelector("#overview-export-btn")?.addEventListener("click", () => loadModule("Reports"));
+
+  // ── FIX: Wire role-specific overview metric filter
+  _applyRoleOverviewFilter(el, d);
+
+  // ── AI FEED: Additive overlay — student welfare PWA insights for all staff roles
+  if (_state.role !== "student") {
+    _injectAIFeedPanel(el, null, "Student Welfare PWA — Live AI Insights");
+  }
 }
+
+// ─────────────────────────────────────────────
+// ── ROLE-SPECIFIC OVERVIEW METRICS (FIX: DATA BINDING)
+// Overlays role-appropriate metrics without changing layout
+// ─────────────────────────────────────────────
+
+function _applyRoleOverviewFilter(el, d) {
+  const role = _state.role;
+  // Only override for non-admin roles — admin already sees school-wide metrics
+  if (role === "school_admin") return;
+
+  // Teacher: scope to their classes only
+  if (role === "teacher") {
+    const teacherClasses = d.classes.slice(0, 3); // demo: first 3 classes
+    const classIds = teacherClasses.map(c => c.id);
+    const myStudents = d.students.filter(s => classIds.includes(s.classId));
+    if (!myStudents.length) return;
+    const avgWB = (myStudents.reduce((s,st)=>s+st.wellbeingScore,0)/myStudents.length).toFixed(1);
+    const red   = myStudents.filter(s=>s.alertLevel==="red").length;
+    const amber = myStudents.filter(s=>s.alertLevel==="amber").length;
+    _injectRoleBanner(el, `📚 Teacher View — ${myStudents.length} students across ${teacherClasses.length} classes · Avg Wellbeing: ${avgWB} · 🔴 ${red} · 🟡 ${amber}`);
+    return;
+  }
+
+  // Pastoral Lead: scope to year group
+  if (role === "pastoral_lead") {
+    const yg = d.yearGroups[0];
+    const ygStudents = d.students.filter(s => s.yearGroupId === yg.id);
+    if (!ygStudents.length) return;
+    const avgWB = (ygStudents.reduce((s,st)=>s+st.wellbeingScore,0)/ygStudents.length).toFixed(1);
+    const red   = ygStudents.filter(s=>s.alertLevel==="red").length;
+    const amber = ygStudents.filter(s=>s.alertLevel==="amber").length;
+    _injectRoleBanner(el, `🤝 Pastoral View — ${yg.name} · ${ygStudents.length} students · Avg Wellbeing: ${avgWB} · 🔴 ${red} · 🟡 ${amber}`);
+    return;
+  }
+
+  // Safeguarding Officer: show alert-focused metrics
+  if (role === "safeguarding_officer") {
+    const redStudents  = d.students.filter(s=>s.alertLevel==="red");
+    const openSR = d.supportRequests.filter(r=>r.status==="open");
+    _injectRoleBanner(el, `🔒 Safeguarding View — ${redStudents.length} students at red alert · ${openSR.length} open support requests · Requires review`);
+    return;
+  }
+
+  // AI Feed overlay — inject PWA student insights if available
+  try {
+    const aiFeed = JSON.parse(localStorage.getItem("swp_admin_ai_feed") || "[]");
+    if (aiFeed.length) {
+      const container = el.querySelector(".swp-stats-grid");
+      if (!container) return;
+      const aiCard = document.createElement("div");
+      aiCard.className = "swp-ai-card";
+      aiCard.style.gridColumn = "1 / -1";
+      const alerts = aiFeed.flatMap(f => f.alerts || []).filter(a => a.level === "red" || a.level === "amber");
+      aiCard.innerHTML = `
+        <div class="swp-ai-card__header">🤖 Student Welfare PWA — AI Feed (${aiFeed.length} student${aiFeed.length>1?"s":""})</div>
+        <div class="swp-ai-card__text">
+          ${alerts.length
+            ? alerts.slice(0,3).map(a => `⚠️ ${a.msg}`).join("<br>")
+            : "✅ No alerts from Student Welfare PWA check-ins."}
+        </div>
+        <div class="swp-ai-card__disclaimer">Based on self-reported data from Student Welfare PWA. Not a clinical assessment.</div>
+      `;
+      container.appendChild(aiCard);
+    }
+  } catch(e) { /* graceful fail — AI feed is additive only */ }
+}
+
+function _injectRoleBanner(el, text) {
+  const header = el.querySelector(".swp-page-header");
+  if (!header) return;
+  const existing = el.querySelector(".swp-role-context-banner");
+  if (existing) existing.remove();
+  const banner = document.createElement("div");
+  banner.className = "swp-role-context-banner";
+  banner.style.cssText = "background:rgba(44,122,123,0.07);border:1.5px solid rgba(44,122,123,0.2);border-radius:8px;padding:0.625rem 0.875rem;font-size:0.8rem;color:var(--color-primary);font-weight:500;margin-bottom:0.875rem;";
+  banner.textContent = text;
+  header.insertAdjacentElement("afterend", banner);
+}
+
 
 function renderStudents(el, d) {
   let filtered = d.students;
@@ -934,6 +1025,12 @@ function renderStudents(el, d) {
       renderStudents(el, d);
     });
   });
+
+  // ── FIX: Wire close-detail button
+  el.querySelector("#close-detail")?.addEventListener("click", () => {
+    _state.selectedStudent = null;
+    renderStudents(el, d);
+  });
 }
 
 function _renderStudentDetailPanel(student, d) {
@@ -950,7 +1047,7 @@ function _renderStudentDetailPanel(student, d) {
           <div><div style="font-weight:700;">${student.fullName}</div>
           <div style="font-size:0.8rem;color:var(--color-muted);">${student.yearGroupName} · ${student.className}</div></div>
         </div>
-        <button onclick="" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--color-muted);" id="close-detail">✕</button>
+        <button id="close-detail" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--color-muted);">✕</button>
       </div>
       <div class="swp-stats-grid" style="grid-template-columns:1fr 1fr 1fr;">
         <div style="text-align:center;"><div style="font-size:1.25rem;font-weight:800;color:var(--color-${student.alertLevel==="red"?"danger":student.alertLevel==="amber"?"warning":"success"});">${student.wellbeingScore.toFixed(0)}</div><div style="font-size:0.7rem;color:var(--color-muted);">Wellbeing</div></div>
@@ -1351,6 +1448,9 @@ function renderSafeguarding(el, d) {
       <div class="swp-ai-card__text">All records in this section are governed by statutory safeguarding guidance. Access is restricted to designated safeguarding leads and senior leadership. All entries are fully audited.</div>
     </div>
   `;
+
+  // ── AI FEED: Additive — inject PWA safeguarding flags into this view
+  _injectAIFeedPanel(el, ["safeguarding_disclosure", "low_mood", "high_stress", "combined_risk"], "🔒 Student Welfare PWA — Safeguarding Flags");
 }
 
 function renderSettings(el, d) {
@@ -1378,6 +1478,34 @@ function renderSettings(el, d) {
 // ─────────────────────────────────────────────
 // HELPERS
 // ─────────────────────────────────────────────
+
+function _injectAIFeedPanel(el, filterTypes, title) {
+  try {
+    const aiFeed = JSON.parse(localStorage.getItem("swp_admin_ai_feed") || "[]");
+    if (!aiFeed.length) return;
+
+    const relevantAlerts = aiFeed.flatMap(f =>
+      (f.alerts || []).filter(a => !filterTypes || filterTypes.includes(a.type))
+    );
+
+    const panel = document.createElement("div");
+    panel.className = "swp-ai-card";
+    panel.style.marginTop = "1rem";
+    panel.innerHTML = `
+      <div class="swp-ai-card__header">🤖 ${title || "Student Welfare PWA — AI Insights"} (${aiFeed.length} student${aiFeed.length>1?"s":""})</div>
+      ${relevantAlerts.length
+        ? relevantAlerts.slice(0,5).map(a =>
+            `<div class="swp-ai-card__text" style="margin-bottom:0.375rem;">
+              <span class="badge ${a.level === "red" ? "red" : "amber"}" style="margin-right:0.375rem;">${a.level}</span>${a.msg}
+            </div>`
+          ).join("")
+        : `<div class="swp-ai-card__text">✅ No matching alerts from Student Welfare PWA.</div>`}
+      <div class="swp-ai-card__disclaimer">Based on self-reported data from Student Welfare PWA only. Not a clinical assessment.</div>
+    `;
+    el.appendChild(panel);
+  } catch(e) { /* AI feed is additive — fail silently */ }
+}
+
 
 function _renderMiniChart(values, max, colorClass) {
   if (!values.length) return `<div class="swp-chart"><div style="color:var(--color-muted);font-size:0.8rem;margin:auto;">No data</div></div>`;

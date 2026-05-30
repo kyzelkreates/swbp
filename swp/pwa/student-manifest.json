@@ -1,0 +1,31 @@
+{
+  "name": "WellTrack — Student Welfare",
+  "short_name": "WellTrack",
+  "description": "Your personal student wellbeing app — daily check-ins, goals, and pastoral support",
+  "start_url": "/student.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#2C7A7B",
+  "theme_color": "#2C7A7B",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Daily Check-In",
+      "short_name": "Check-In",
+      "description": "Record how you're feeling today",
+      "url": "/student.html"
+    },
+    {
+      "name": "Get Support",
+      "short_name": "Support",
+      "description": "Request support from your pastoral team",
+      "url": "/student.html"
+    }
+  ],
+  "categories": ["education", "health", "productivity"],
+  "screenshots": []
+}
